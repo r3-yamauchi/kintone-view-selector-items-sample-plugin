@@ -1,0 +1,26 @@
+dist/
+private.ppk
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# Test coverage
+coverage/
+
+# Temporary files
+*.tmp
+temp/
+
+# Node.js (npm packages are downloaded but not tracked)
+node_modules/

@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>プラグイン設定</title>
+</head>
+<body>
+  <div class="plugin-config">
+    <main class="plugin-config__main">
+      <section class="plugin-config__section">
+        <div class="plugin-config__description-container">
+          <h3 class="plugin-config__subtitle">一覧の表示設定</h3>
+          <p class="plugin-config__description">レコード一覧画面で表示する一覧を選択してください。</p>
+
+          <div id="loading-message" style="padding: 20px; text-align: center; color: #666;">
+            読み込み中...
+          </div>
+
+          <div id="error-message" style="display: none; padding: 20px; background-color: #ffe6e6; border-radius: 4px; color: #d32f2f;">
+          </div>
+
+          <div id="views-container" style="display: none;">
+            <div id="views-list" class="plugin-config__views-list">
+              <!-- 一覧がここに動的に追加されます -->
+            </div>
+          </div>
+
+          <div class="plugin-config__note">
+            <strong>注意:</strong> チェックを外した一覧は、レコード一覧画面の一覧選択メニューに表示されなくなります。
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="plugin-config__footer">
+      <button type="button" id="submit-button" class="plugin-config__button plugin-config__button--primary">
+        保存
+      </button>
+      <button type="button" id="cancel-button" class="plugin-config__button plugin-config__button--secondary">
+        キャンセル
+      </button>
+    </footer>
+  </div>
+</body>
+</html>

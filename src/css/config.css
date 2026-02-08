@@ -1,0 +1,75 @@
+body {
+  font-family: 'メイリオ', Meiryo, 'Hiragino Kaku Gothic ProN', 'ヒラギノ角ゴ ProN W3', sans-serif;
+  background-color: #f5f6f8;
+  color: #2f3a45;
+  margin: 0;
+}
+
+/* セクション */
+.plugin-config__section {
+  background-color: #ffffff;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 24px;
+  margin-bottom: 24px;
+}
+
+.plugin-config__section-title {
+  margin: 0 0 20px 0;
+  font-size: 20px;
+  font-weight: 600;
+  color: #2f3a45;
+  border-bottom: 2px solid #3498db;
+  padding-bottom: 10px;
+}
+
+.plugin-config__subtitle {
+  margin: 20px 0 10px 0;
+  font-size: 16px;
+  font-weight: 600;
+  color: #333;
+}
+
+.plugin-config__description-container {
+  margin-top: 16px;
+}
+
+.plugin-config__description {
+  margin: 0 0 20px 0;
+  padding: 12px;
+  font-size: 14px;
+  line-height: 1.6;
+  color: #666;
+  background-color: #f9f9f9;
+  border-left: 3px solid #3498db;
+  border-radius: 4px;
+}
+
+.plugin-config__feature-list,
+.plugin-config__usage-list {
+  margin: 10px 0 20px 0;
+  padding-left: 24px;
+  line-height: 1.8;
+  color: #555;
+}
+
+.plugin-config__feature-list li,
+.plugin-config__usage-list li {
+  margin-bottom: 8px;
+  font-size: 14px;
+}
+
+.plugin-config__note {
+  margin-top: 20px;
+  padding: 12px;
+  background-color: #fff3cd;
+  border-left: 3px solid #ffc107;
+  border-radius: 4px;
+  font-size: 14px;
+  color: #856404;
+  line-height: 1.6;
+}
+
+.plugin-config__note strong {
+  font-weight: 600;
+}

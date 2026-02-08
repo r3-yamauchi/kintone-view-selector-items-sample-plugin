@@ -1,0 +1,39 @@
+{
+  "manifest_version": 1,
+  "version": 1,
+  "type": "APP",
+  "desktop": {
+    "js": [
+      "js/desktop.js"
+    ]
+  },
+  "mobile": {
+    "js": [
+      "js/mobile.js"
+    ]
+  },
+  "icon": "image/icon.png",
+  "config": {
+    "html": "html/config.html",
+    "js": [
+      "js/config.js"
+    ],
+    "css": [
+      "css/51-modern-default.css",
+      "css/config.css"
+    ],
+    "required_params": []
+  },
+  "homepage_url": {
+    "ja": "https://yamauchi.win",
+    "en": "https://yamauchi.win"
+  },
+  "name": {
+    "ja": "一覧表示制御プラグイン",
+    "en": "View Display Control Plugin"
+  },
+  "description": {
+    "ja": "レコード一覧画面で表示する一覧を制御できるプラグイン",
+    "en": "Plugin to control which views are displayed in the record list screen"
+  }
+}
