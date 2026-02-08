@@ -1,24 +1,113 @@
 (function(PLUGIN_ID) {
   'use strict';
 
-  const CONFIG_KEY = 'hiddenViewIds';
+  const CONFIG_KEY = 'viewSettings';
+  const LEGACY_CONFIG_KEY = 'hiddenViewIds';
 
   /**
-   * プラグイン設定を取得する関数（非表示にする一覧IDの配列を返す）
+   * プラグイン設定を取得する関数
    */
   function getConfig() {
     const config = kintone.plugin.app.getConfig(PLUGIN_ID);
+
+    // 新しい形式の設定があればそれを使用
     if (config && config[CONFIG_KEY]) {
       try {
         const parsed = JSON.parse(config[CONFIG_KEY]);
-        // 配列として返す
         return Array.isArray(parsed) ? parsed : null;
       } catch (error) {
         console.error('設定の読み込みに失敗しました:', error);
-        return null;
       }
     }
+
+    // 古い形式の設定からの移行処理
+    if (config && config[LEGACY_CONFIG_KEY]) {
+      try {
+        const hiddenViewIds = JSON.parse(config[LEGACY_CONFIG_KEY]);
+        if (Array.isArray(hiddenViewIds)) {
+          // 古い形式を新しい形式に変換
+          return hiddenViewIds.map(viewId => ({
+            viewId: viewId,
+            alwaysHidden: true,
+            conditionalHidden: {
+              enabled: false,
+              matchType: 'includes',
+              groupCodes: []
+            }
+          }));
+        }
+      } catch (error) {
+        console.error('旧設定の読み込みに失敗しました:', error);
+      }
+    }
+
     return null;
+  }
+
+  /**
+   * 条件を評価する関数（グループ所属チェック）
+   */
+  function evaluateCondition(loginUser, condition) {
+    if (!condition.enabled) {
+      return false; // 条件が無効の場合は非表示にしない
+    }
+
+    const groupCodes = condition.groupCodes;
+    const matchType = condition.matchType || 'includes';
+
+    // グループコードが設定されていない場合は非表示にしない
+    if (!groupCodes || groupCodes.length === 0) {
+      return false;
+    }
+
+    // ユーザーの所属グループコードの配列を取得
+    const userGroupCodes = loginUser.groups.map(group => group.code);
+
+    // 指定されたグループコードのいずれかにユーザーが所属しているか
+    const isInGroup = groupCodes.some(groupCode => userGroupCodes.includes(groupCode));
+
+    // 条件タイプに基づいて評価
+    if (matchType === 'includes') {
+      // 指定したグループのいずれかに所属する場合は非表示
+      return isInGroup;
+    } else if (matchType === 'notIncludes') {
+      // 指定したグループのいずれにも所属しない場合は非表示
+      return !isInGroup;
+    }
+
+    return false;
+  }
+
+  /**
+   * 一覧が非表示かどうかを判定する関数
+   */
+  function shouldHideView(viewSetting, loginUser) {
+    // 常に非表示の場合
+    if (viewSetting.alwaysHidden) {
+      return true;
+    }
+
+    // 条件付き非表示の評価
+    if (viewSetting.conditionalHidden && viewSetting.conditionalHidden.enabled) {
+      return evaluateCondition(loginUser, viewSetting.conditionalHidden);
+    }
+
+    return false;
+  }
+
+  /**
+   * 非表示にする一覧IDの配列を取得する関数
+   */
+  function getHiddenViewIds(viewSettings, loginUser) {
+    const hiddenViewIds = [];
+
+    viewSettings.forEach(viewSetting => {
+      if (shouldHideView(viewSetting, loginUser)) {
+        hiddenViewIds.push(viewSetting.viewId);
+      }
+    });
+
+    return hiddenViewIds;
   }
 
   /**
@@ -82,10 +171,21 @@
    * 一覧メニューの表示を制御する関数
    */
   async function controlViewMenu(event) {
-    const hiddenViewIds = getConfig();
+    const viewSettings = getConfig();
 
-    if (!hiddenViewIds || hiddenViewIds.length === 0) {
-      // 設定がない、または非表示にする一覧がない場合は何もしない
+    if (!viewSettings || viewSettings.length === 0) {
+      // 設定がない場合は何もしない
+      return event;
+    }
+
+    // ログインユーザー情報を取得
+    const loginUser = kintone.getLoginUser();
+
+    // 非表示にする一覧IDを決定
+    const hiddenViewIds = getHiddenViewIds(viewSettings, loginUser);
+
+    if (hiddenViewIds.length === 0) {
+      // 非表示にする一覧がない場合は何もしない
       return event;
     }
 

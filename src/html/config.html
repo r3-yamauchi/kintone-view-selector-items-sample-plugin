@@ -3,6 +3,61 @@
 <head>
   <meta charset="UTF-8">
   <title>プラグイン設定</title>
+  <style>
+    .condition-settings {
+      margin-top: 8px;
+      padding: 12px;
+      background-color: #f9f9f9;
+      border-left: 3px solid #3498db;
+      display: none;
+    }
+    .condition-settings.show {
+      display: block;
+    }
+    .condition-toggle {
+      margin-left: auto;
+      padding: 4px 12px;
+      font-size: 12px;
+      cursor: pointer;
+      background-color: #f0f0f0;
+      border: 1px solid #ccc;
+      border-radius: 3px;
+    }
+    .condition-toggle:hover {
+      background-color: #e0e0e0;
+    }
+    .condition-form-group {
+      margin-bottom: 12px;
+    }
+    .condition-form-group label {
+      display: block;
+      margin-bottom: 4px;
+      font-size: 13px;
+      font-weight: bold;
+    }
+    .condition-form-group select,
+    .condition-form-group input {
+      width: 100%;
+      padding: 6px;
+      font-size: 13px;
+      border: 1px solid #ccc;
+      border-radius: 3px;
+    }
+    .condition-enabled {
+      display: flex;
+      align-items: center;
+      margin-bottom: 12px;
+    }
+    .condition-enabled input {
+      width: auto;
+      margin-right: 8px;
+    }
+    .plugin-config__view-item-header {
+      display: flex;
+      align-items: center;
+      width: 100%;
+    }
+  </style>
 </head>
 <body>
   <div class="plugin-config">
@@ -10,7 +65,7 @@
       <section class="plugin-config__section">
         <div class="plugin-config__description-container">
           <h3 class="plugin-config__subtitle">一覧の表示設定</h3>
-          <p class="plugin-config__description">レコード一覧画面で表示する一覧を選択してください。</p>
+          <p class="plugin-config__description">レコード一覧画面で表示する一覧を選択してください。条件ボタンをクリックすると、グループ所属に基づいた条件付き非表示を設定できます。</p>
 
           <div id="loading-message" style="padding: 20px; text-align: center; color: #666;">
             読み込み中...
@@ -26,7 +81,7 @@
           </div>
 
           <div class="plugin-config__note">
-            <strong>注意:</strong> チェックを外した一覧は、レコード一覧画面の一覧選択メニューに表示されなくなります。
+            <strong>注意:</strong> チェックを外した一覧は常に非表示になります。条件を設定すると、条件タイプに応じてグループ所属に基づいて非表示が制御されます。
           </div>
         </div>
       </section>
